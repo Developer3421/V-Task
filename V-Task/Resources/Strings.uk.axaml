@@ -1,0 +1,92 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Ukrainian (Українська) Localization                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Window -->
+    <sys:String x:Key="AppTitle">V-Task - Монітор Ресурсів</sys:String>
+    
+    <!-- Tabs -->
+    <sys:String x:Key="TabDashboard">📊 Dashboard</sys:String>
+    <sys:String x:Key="TabMemory">💾 Memory</sys:String>
+    <sys:String x:Key="TabGPU">🎮 GPU</sys:String>
+    
+    <!-- Dashboard - CPU -->
+    <sys:String x:Key="CPU">🧠 CPU</sys:String>
+    <sys:String x:Key="DetectingProcessor">Виявлення процесора…</sys:String>
+    <sys:String x:Key="CoresPhysLog">Ядра (фіз/лог):</sys:String>
+    
+    <!-- Dashboard - Memory -->
+    <sys:String x:Key="Memory">💾 Memory</sys:String>
+    <sys:String x:Key="Calculating">Розрахунок…</sys:String>
+    <sys:String x:Key="Used">Використано</sys:String>
+    <sys:String x:Key="Available">Доступно</sys:String>
+    <sys:String x:Key="Total">Всього</sys:String>
+    
+    <!-- Dashboard - Disk -->
+    <sys:String x:Key="Disk">💿 Disk</sys:String>
+    
+    <!-- Dashboard - Network -->
+    <sys:String x:Key="Network">🌐 Network</sys:String>
+    <sys:String x:Key="Download">↓ Завантаження</sys:String>
+    <sys:String x:Key="Upload">↑ Вивантаження</sys:String>
+    <sys:String x:Key="Received">Отримано</sys:String>
+    <sys:String x:Key="Sent">Відправлено</sys:String>
+    <sys:String x:Key="WiFiNotConnected">📶 Wi-Fi: Не підключено</sys:String>
+    <sys:String x:Key="EthNotConnected">🔌 Ethernet: Не підключено</sys:String>
+    <sys:String x:Key="NoConnection">Немає підключення</sys:String>
+    
+    <!-- Dashboard - System -->
+    <sys:String x:Key="System">💻 Система</sys:String>
+    <sys:String x:Key="Uptime">Uptime:</sys:String>
+    <sys:String x:Key="UpdateTime">🕐 Час оновлення</sys:String>
+    <sys:String x:Key="Second">секунда</sys:String>
+    <sys:String x:Key="Refresh">Оновити</sys:String>
+    
+    <!-- Memory Panel -->
+    <sys:String x:Key="MemoryDetails">💾 Детальна інформація про пам'ять</sys:String>
+    <sys:String x:Key="RAM">Оперативна пам'ять (RAM)</sys:String>
+    <sys:String x:Key="SwapFile">Файл підкачки (Swap / Page File)</sys:String>
+    <sys:String x:Key="Usage">Використання</sys:String>
+    <sys:String x:Key="AdditionalInfo">📊 Додаткова інформація</sys:String>
+    <sys:String x:Key="Frequency">Частота:</sys:String>
+    <sys:String x:Key="Type">Тип:</sys:String>
+    <sys:String x:Key="Slots">Слоти:</sys:String>
+    
+    <!-- GPU Panel -->
+    <sys:String x:Key="GPUDetails">🎮 Детальна інформація про GPU</sys:String>
+    <sys:String x:Key="GPUMemory">Пам'ять GPU</sys:String>
+    <sys:String x:Key="Status">Статус</sys:String>
+    <sys:String x:Key="TechData">🔧 Технічні дані</sys:String>
+    <sys:String x:Key="Driver">Драйвер:</sys:String>
+    <sys:String x:Key="Interface">Інтерфейс:</sys:String>
+    <sys:String x:Key="NA">Н/Д</sys:String>
+    
+    <!-- Settings -->
+    <sys:String x:Key="Settings">⚙️ Налаштування</sys:String>
+    <sys:String x:Key="General">Загальні</sys:String>
+    <sys:String x:Key="Language">Мова</sys:String>
+    <sys:String x:Key="SelectLanguage">Виберіть мову:</sys:String>
+    <sys:String x:Key="About">Про додаток</sys:String>
+    <sys:String x:Key="AboutApp">Про V-Task</sys:String>
+    <sys:String x:Key="Version">Версія:</sys:String>
+    <sys:String x:Key="Author">Автор:</sys:String>
+    <sys:String x:Key="AuthorName">Oleh Kurylo</sys:String>
+    <sys:String x:Key="Description">Опис:</sys:String>
+    <sys:String x:Key="AppDescription">V-Task - це сучасний монітор системних ресурсів для Windows, створений з використанням Avalonia UI.</sys:String>
+    <sys:String x:Key="Close">Закрити</sys:String>
+    <sys:String x:Key="Apply">Застосувати</sys:String>
+    
+    <!-- GPU Status -->
+    <sys:String x:Key="GpuActive">Активний</sys:String>
+    <sys:String x:Key="GpuInactive">Не активний</sys:String>
+    <sys:String x:Key="GpuDiscrete">Дискретна відеокарта</sys:String>
+    <sys:String x:Key="GpuIntegrated">Інтегрована відеокарта</sys:String>
+    <sys:String x:Key="GpuOther">Інша відеокарта</sys:String>
+    <sys:String x:Key="GpuUsed">Використано:</sys:String>
+    <sys:String x:Key="Technologies">🛠️ Технології</sys:String>
+
+</ResourceDictionary>

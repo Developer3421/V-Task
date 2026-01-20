@@ -1,0 +1,92 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Turkish (Türkçe) Localization                                           -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Window -->
+    <sys:String x:Key="AppTitle">V-Task - Kaynak İzleyici</sys:String>
+    
+    <!-- Tabs -->
+    <sys:String x:Key="TabDashboard">📊 Panel</sys:String>
+    <sys:String x:Key="TabMemory">💾 Bellek</sys:String>
+    <sys:String x:Key="TabGPU">🎮 GPU</sys:String>
+    
+    <!-- Dashboard - CPU -->
+    <sys:String x:Key="CPU">🧠 CPU</sys:String>
+    <sys:String x:Key="DetectingProcessor">İşlemci algılanıyor…</sys:String>
+    <sys:String x:Key="CoresPhysLog">Çekirdekler (fiz/man):</sys:String>
+    
+    <!-- Dashboard - Memory -->
+    <sys:String x:Key="Memory">💾 Bellek</sys:String>
+    <sys:String x:Key="Calculating">Hesaplanıyor…</sys:String>
+    <sys:String x:Key="Used">Kullanılan</sys:String>
+    <sys:String x:Key="Available">Kullanılabilir</sys:String>
+    <sys:String x:Key="Total">Toplam</sys:String>
+    
+    <!-- Dashboard - Disk -->
+    <sys:String x:Key="Disk">💿 Disk</sys:String>
+    
+    <!-- Dashboard - Network -->
+    <sys:String x:Key="Network">🌐 Ağ</sys:String>
+    <sys:String x:Key="Download">↓ İndirme</sys:String>
+    <sys:String x:Key="Upload">↑ Yükleme</sys:String>
+    <sys:String x:Key="Received">Alınan</sys:String>
+    <sys:String x:Key="Sent">Gönderilen</sys:String>
+    <sys:String x:Key="WiFiNotConnected">📶 Wi-Fi: Bağlı değil</sys:String>
+    <sys:String x:Key="EthNotConnected">🔌 Ethernet: Bağlı değil</sys:String>
+    <sys:String x:Key="NoConnection">Bağlantı yok</sys:String>
+    
+    <!-- Dashboard - System -->
+    <sys:String x:Key="System">💻 Sistem</sys:String>
+    <sys:String x:Key="Uptime">Çalışma süresi:</sys:String>
+    <sys:String x:Key="UpdateTime">🕐 Güncelleme süresi</sys:String>
+    <sys:String x:Key="Second">saniye</sys:String>
+    <sys:String x:Key="Refresh">Yenile</sys:String>
+    
+    <!-- Memory Panel -->
+    <sys:String x:Key="MemoryDetails">💾 Bellek ayrıntıları</sys:String>
+    <sys:String x:Key="RAM">RAM (Rastgele Erişimli Bellek)</sys:String>
+    <sys:String x:Key="SwapFile">Sayfa Dosyası</sys:String>
+    <sys:String x:Key="Usage">Kullanım</sys:String>
+    <sys:String x:Key="AdditionalInfo">📊 Ek bilgi</sys:String>
+    <sys:String x:Key="Frequency">Frekans:</sys:String>
+    <sys:String x:Key="Type">Tür:</sys:String>
+    <sys:String x:Key="Slots">Yuvalar:</sys:String>
+    
+    <!-- GPU Panel -->
+    <sys:String x:Key="GPUDetails">🎮 GPU ayrıntıları</sys:String>
+    <sys:String x:Key="GPUMemory">GPU Belleği</sys:String>
+    <sys:String x:Key="Status">Durum</sys:String>
+    <sys:String x:Key="TechData">🔧 Teknik veriler</sys:String>
+    <sys:String x:Key="Driver">Sürücü:</sys:String>
+    <sys:String x:Key="Interface">Arayüz:</sys:String>
+    <sys:String x:Key="NA">Yok</sys:String>
+    
+    <!-- Settings -->
+    <sys:String x:Key="Settings">⚙️ Ayarlar</sys:String>
+    <sys:String x:Key="General">Genel</sys:String>
+    <sys:String x:Key="Language">Dil</sys:String>
+    <sys:String x:Key="SelectLanguage">Dil seçin:</sys:String>
+    <sys:String x:Key="About">Hakkında</sys:String>
+    <sys:String x:Key="AboutApp">V-Task Hakkında</sys:String>
+    <sys:String x:Key="Version">Sürüm:</sys:String>
+    <sys:String x:Key="Author">Yazar:</sys:String>
+    <sys:String x:Key="AuthorName">Oleh Kurylo</sys:String>
+    <sys:String x:Key="Description">Açıklama:</sys:String>
+    <sys:String x:Key="AppDescription">V-Task, Avalonia UI ile oluşturulmuş Windows için modern bir sistem kaynak izleyicisidir.</sys:String>
+    <sys:String x:Key="Close">Kapat</sys:String>
+    <sys:String x:Key="Apply">Uygula</sys:String>
+    
+    <!-- GPU Status -->
+    <sys:String x:Key="GpuActive">Aktif</sys:String>
+    <sys:String x:Key="GpuInactive">Pasif</sys:String>
+    <sys:String x:Key="GpuDiscrete">Harici GPU</sys:String>
+    <sys:String x:Key="GpuIntegrated">Tümleşik GPU</sys:String>
+    <sys:String x:Key="GpuOther">Diğer GPU</sys:String>
+    <sys:String x:Key="GpuUsed">Kullanılan:</sys:String>
+    <sys:String x:Key="Technologies">🛠️ Teknolojiler</sys:String>
+
+</ResourceDictionary>

@@ -1,40 +1,36 @@
 namespace V_Task.Models;
 
 /// <summary>
-/// Hardware information that doesn't change frequently
-/// </summary>
-public class HardwareInfo
-{
-    // Memory
-    public string? MemorySpeed { get; set; }
-    public string? MemoryType { get; set; }
-    public string? MemorySlots { get; set; }
-    
-    // GPU
-    public string? GpuName { get; set; }
-    public string? GpuDriver { get; set; }
-    public string? GpuMemory { get; set; }
-    public double GpuMemoryGB { get; set; }
-    
-    // CPU
-    public string? CpuName { get; set; }
-    public string? CpuBaseFreq { get; set; }
-    public int PhysicalCores { get; set; }
-    public int LogicalCores { get; set; }
-}
-
-/// <summary>
-/// Real-time GPU metrics
+/// Real-time GPU metrics (for a single adapter)
 /// </summary>
 public class GpuMetrics
 {
     public double Usage { get; set; }
     public double MemoryUsedGB { get; set; }
     public double MemoryUsagePercent { get; set; }
-    public double CoreClockMHz { get; set; }
-    public double MemoryClockMHz { get; set; }
-    public double Temperature { get; set; }
-    public double Power { get; set; }
+
+}
+
+/// <summary>
+/// One GPU adapter (integrated or discrete) with static + live metrics.
+/// </summary>
+public class GpuAdapterInfo
+{
+    public string Id { get; set; } = string.Empty; // e.g. LUID or a synthetic id
+    public string Name { get; set; } = "GPU";
+    public bool IsIntegrated { get; set; }
+    public bool IsMock { get; set; }
+    public bool IsActive { get; set; } = true; // Real GPUs are active, mock GPUs are not
+
+    public string? DriverVersion { get; set; }
+
+    // VRAM (Dedicated) usage in GB
+    public double TotalMemoryGB { get; set; }
+    public double UsedMemoryGB { get; set; }
+    public double UsagePercent { get; set; }
+    
+    // For localized status/card type, use converters in XAML bindings
+    // StatusText and CardTypeText are now provided via converters
 }
 
 /// <summary>

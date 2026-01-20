@@ -1,0 +1,233 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
+        x:Class="V_Task.SettingsWindow"
+        Title="Налаштування"
+        WindowStartupLocation="CenterOwner"
+        SystemDecorations="None"
+        Width="500"
+        Height="500"
+        MinWidth="400"
+        MinHeight="400"
+        CanResize="False"
+        UseLayoutRounding="True"
+        FontFamily="Segoe UI, Arial, Tahoma"
+        Background="#FFF5E6D3">
+
+    <Window.Resources>
+        <!-- Base Colors -->
+        <Color x:Key="AppBgColor">#FFF5E6D3</Color>
+        <Color x:Key="AppSurfaceColor">#FFFDF7EF</Color>
+        <Color x:Key="AppBorderColor">#FFE8D5B7</Color>
+        <Color x:Key="AppTextColor">#FF404040</Color>
+        <Color x:Key="AppTextMutedColor">#FF606060</Color>
+
+        <!-- Accent Colors -->
+        <Color x:Key="AccentOrangeColor">#FFFF8C00</Color>
+        <Color x:Key="AccentOrangeHoverColor">#FFFFA000</Color>
+        <Color x:Key="AccentPurpleColor">#7D2AE8</Color>
+        <Color x:Key="AccentPurpleHoverColor">#A78BFA</Color>
+
+        <!-- Solid Color Brushes -->
+        <SolidColorBrush x:Key="AppBgBrush" Color="{StaticResource AppBgColor}" />
+        <SolidColorBrush x:Key="AppSurfaceBrush" Color="{StaticResource AppSurfaceColor}" />
+        <SolidColorBrush x:Key="AppBorderBrush" Color="{StaticResource AppBorderColor}" />
+        <SolidColorBrush x:Key="AppTextBrush" Color="{StaticResource AppTextColor}" />
+        <SolidColorBrush x:Key="AppTextMutedBrush" Color="{StaticResource AppTextMutedColor}" />
+        <SolidColorBrush x:Key="AccentOrangeBrush" Color="{StaticResource AccentOrangeColor}" />
+        <SolidColorBrush x:Key="AccentOrangeHoverBrush" Color="{StaticResource AccentOrangeHoverColor}" />
+        <SolidColorBrush x:Key="AccentPurpleBrush" Color="{StaticResource AccentPurpleColor}" />
+        <SolidColorBrush x:Key="AccentPurpleHoverBrush" Color="{StaticResource AccentPurpleHoverColor}" />
+
+        <!-- Gray Gradient for Title Bar -->
+        <LinearGradientBrush x:Key="GrayGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFE0E0E0" Offset="0"/>
+            <GradientStop Color="#FFD0D0D0" Offset="0.3"/>
+            <GradientStop Color="#FFC5C5C5" Offset="0.7"/>
+            <GradientStop Color="#FFC0C0C0" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+
+    <Window.Styles>
+        <!-- Window Control Buttons -->
+        <Style Selector="Button.window-control">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#303030"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.window-control:pointerover">
+            <Setter Property="Background" Value="#40FFFFFF"/>
+        </Style>
+        <Style Selector="Button.window-control.close:pointerover">
+            <Setter Property="Background" Value="#40FF5C5C"/>
+        </Style>
+
+        <!-- Panel Style -->
+        <Style Selector="Border.panel">
+            <Setter Property="Background" Value="{StaticResource AppSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+        </Style>
+
+        <!-- Tab Button Style -->
+        <Style Selector="Button.settings-tab">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource AppTextMutedBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style Selector="Button.settings-tab:pointerover">
+            <Setter Property="Background" Value="#20000000"/>
+            <Setter Property="Foreground" Value="{StaticResource AppTextBrush}"/>
+        </Style>
+        <Style Selector="Button.settings-tab.active">
+            <Setter Property="Background" Value="{StaticResource AccentPurpleBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="Button.settings-tab.active:pointerover">
+            <Setter Property="Background" Value="{StaticResource AccentPurpleHoverBrush}"/>
+        </Style>
+
+        <!-- Action Button Style -->
+        <Style Selector="Button.action-button">
+            <Setter Property="Background" Value="{StaticResource AccentOrangeBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,8"/>
+        </Style>
+        <Style Selector="Button.action-button:pointerover">
+            <Setter Property="Background" Value="{StaticResource AccentOrangeHoverBrush}"/>
+        </Style>
+        <Style Selector="Button.action-button:pressed">
+            <Setter Property="Background" Value="#FFE07800"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="{StaticResource AppSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppBorderBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource AppTextBrush}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12,8"/>
+        </Style>
+    </Window.Styles>
+
+    <Border Background="Transparent" Margin="2" BorderThickness="1" BorderBrush="Transparent">
+        <Grid RowDefinitions="42,*">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource AppBgColor}"/>
+            </Grid.Background>
+
+            <!-- Title Bar -->
+            <Grid Grid.Row="0" Name="TitleBar" Background="{StaticResource GrayGradient}">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <!-- Left: Icon + Title -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                        <Border Width="24" Height="24" CornerRadius="6" Background="{StaticResource AccentPurpleBrush}" Margin="0,0,10,0">
+                            <TextBlock Text="⚙" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Name="TitleText" Text="Налаштування"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource AppTextBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Middle: Draggable Space -->
+                    <Panel Name="TitleBarDragArea" Grid.Column="1" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
+
+                    <!-- Right: Window Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Stretch">
+                        <Button Name="CloseButton" Classes="window-control close" Padding="0" Width="46" Height="42" Click="CloseButton_Click">
+                            <Image Source="/Icons/CloseButton.png" Width="16" Height="16"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!-- Content -->
+            <Grid Grid.Row="1" ColumnDefinitions="150,*" Margin="12">
+                <!-- Left Sidebar -->
+                <Border Grid.Column="0" Classes="panel" Margin="0,0,6,0" Padding="8">
+                    <StackPanel>
+                        <Button Name="TabGeneral" Classes="settings-tab active" Content="🌐 Мова" Click="SettingsTab_Click"/>
+                        <Button Name="TabAbout" Classes="settings-tab" Content="ℹ️ Про додаток" Click="SettingsTab_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Right Content -->
+                <Border Grid.Column="1" Classes="panel" Margin="6,0,0,0" Padding="16">
+                    <Panel>
+                        <!-- General Settings Panel -->
+                        <StackPanel Name="PanelGeneral" IsVisible="True">
+                            <TextBlock Name="HeaderLanguage" Text="🌐 Мова" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,16"/>
+                            
+                            <TextBlock Name="LabelSelectLanguage" Text="Виберіть мову:" FontSize="13" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,0,0,8"/>
+                            <ComboBox Name="LanguageComboBox" Width="200" HorizontalAlignment="Left" SelectionChanged="LanguageComboBox_SelectionChanged">
+                                <ComboBoxItem Tag="uk" Content="🇺🇦 Українська"/>
+                                <ComboBoxItem Tag="ru" Content="🇷🇺 Русский"/>
+                                <ComboBoxItem Tag="en" Content="🇬🇧 English"/>
+                                <ComboBoxItem Tag="de" Content="🇩🇪 Deutsch"/>
+                                <ComboBoxItem Tag="tr" Content="🇹🇷 Türkçe"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- About Panel -->
+                        <StackPanel Name="PanelAbout" IsVisible="False">
+                            <TextBlock Name="HeaderAbout" Text="ℹ️ Про V-Task" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,16"/>
+                            
+                            <!-- App Logo -->
+                            <Border Width="80" Height="80" CornerRadius="16" Background="{StaticResource AccentPurpleBrush}" Margin="0,0,0,16" HorizontalAlignment="Left">
+                                <TextBlock Text="⚡" FontSize="40" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            
+                            <StackPanel Spacing="8">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Name="LabelVersion" Text="Версія:" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}" Width="80"/>
+                                    <TextBlock Text="1.0.0" FontSize="13" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                </StackPanel>
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Name="LabelAuthor" Text="Автор:" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}" Width="80"/>
+                                    <TextBlock Text="Oleh Kurylo" FontSize="13" Foreground="{StaticResource AccentPurpleBrush}" FontWeight="SemiBold"/>
+                                </StackPanel>
+                                
+                                <StackPanel Margin="0,8,0,0">
+                                    <TextBlock Name="LabelDescription" Text="Опис:" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,4"/>
+                                    <TextBlock Name="TextDescription" Text="V-Task - це сучасний монітор системних ресурсів для Windows, створений з використанням Avalonia UI." 
+                                               FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" TextWrapping="Wrap" MaxWidth="280"/>
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            <!-- Technologies -->
+                            <Border Classes="panel" Padding="12" Margin="0,20,0,0">
+                                <StackPanel>
+                                    <TextBlock Name="LabelTechnologies" Text="🛠️ Технології" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                    <TextBlock Text="• Avalonia UI 11.3" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    <TextBlock Text="• .NET 10" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    <TextBlock Text="• LibreHardwareMonitor" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Panel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -3,10 +3,9 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
-using V_Task.Models;
 using V_Task.Services;
 
 namespace V_Task;
@@ -14,38 +13,36 @@ namespace V_Task;
 public partial class MainWindow : Window
 {
     // Services
-    private readonly CpuMonitorService _cpuService = new();
-    private readonly GpuMonitorService _gpuService = new();
+    // Dynamic CPU/GPU services removed (CPU/GPU pages are static-only now)
     private readonly MemoryMonitorService _memoryService = new();
     private readonly DiskMonitorService _diskService = new();
     private readonly NetworkMonitorService _networkService = new();
-    private readonly ProcessMonitorService _processService = new();
-    
+    private readonly HardwareMonitorService _hardwareService = new();
+    private readonly GpuMonitorService _gpuService = new();
+    private readonly LocalizationService _localization = LocalizationService.Instance;
+
     // UI Data
     private DispatcherTimer? _updateTimer;
-    private readonly ObservableCollection<ProcessInfo> _processes = new();
-    private readonly ObservableCollection<CpuCoreInfo> _cpuCores = new();
-    
-    // Cached metrics
-    private GpuMetrics _lastGpuMetrics = new();
 
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = this; // Set DataContext for bindings
         InitializeMonitoring();
         SetupEventHandlers();
+        UpdateLocalizedStrings();
     }
 
     private void InitializeMonitoring()
     {
         try
         {
-            // Initialize all services in background
+            // Initialize services in background
             Task.Run(() =>
             {
-                _cpuService.Initialize();
-                _gpuService.Initialize();
                 _memoryService.Initialize();
+                _hardwareService.Initialize();
+                _gpuService.Initialize();
             }).Wait(3000);
 
             // Setup timer for updates (1 second interval)
@@ -67,18 +64,17 @@ public partial class MainWindow : Window
 
     private void SetupEventHandlers()
     {
-        if (ProcessDataGrid != null)
-            ProcessDataGrid.ItemsSource = _processes;
-        
-        if (CpuCoresList != null)
-            CpuCoresList.ItemsSource = _cpuCores;
     }
 
     private void UpdateTimer_Tick(object? sender, EventArgs e)
     {
-        // Update GPU data in background
-        _ = UpdateGpuDataAsync();
-        
+        // Keep a lightweight update loop
+        _hardwareService.Update();
+
+        // GPU counters are cheap to read; keep it updated
+        // (Static info is loaded once inside Initialize)
+        // _gpuService.GetMetrics() is called in UpdateGPUInfo()
+
         // Update UI on main thread
         UpdateAllData();
     }
@@ -88,12 +84,8 @@ public partial class MainWindow : Window
         try
         {
             UpdateDashboard();
-            UpdateCPUInfo();
             UpdateMemoryInfo();
             UpdateGPUInfo();
-            
-            if (PanelProcesses != null && PanelProcesses.IsVisible)
-                UpdateProcessList();
         }
         catch (Exception ex)
         {
@@ -121,19 +113,23 @@ public partial class MainWindow : Window
 
     private void UpdateCpuDashboard()
     {
-        var metrics = _cpuService.GetMetrics();
-        
-        if (DashCpuName != null && !string.IsNullOrEmpty(_cpuService.CpuName))
-            DashCpuName.Text = _cpuService.CpuName;
-        
-        if (DashCpuUsage != null)
-            DashCpuUsage.Text = $"{metrics.TotalUsage:F1}%";
-        if (DashCpuProgress != null)
-            DashCpuProgress.Value = metrics.TotalUsage;
-        if (DashCpuFreq != null)
-            DashCpuFreq.Text = _cpuService.BaseFrequency ?? "N/A";
+        // Static-only CPU info (no dynamic usage/frequency)
+        if (DashCpuName != null)
+        {
+            string name = _hardwareService.CpuName ?? "Unknown CPU";
+            DashCpuName.Text = name;
+        }
+
         if (DashCpuCores != null)
-            DashCpuCores.Text = $"{_cpuService.PhysicalCores} / {_cpuService.LogicalCores}";
+        {
+            int physCores = _hardwareService.PhysicalCores;
+            int logCores = _hardwareService.LogicalCores;
+
+            if (physCores <= 0) physCores = logCores;
+            if (logCores <= 0) logCores = Environment.ProcessorCount;
+
+            DashCpuCores.Text = $"{physCores} / {logCores}";
+        }
     }
 
     private void UpdateRamDashboard()
@@ -185,7 +181,7 @@ public partial class MainWindow : Window
         else
         {
             if (DashNetWifiName != null)
-                DashNetWifiName.Text = "📶 Wi-Fi: Не підключено";
+                DashNetWifiName.Text = _localization["WiFiNotConnected"];
             if (DashNetWifiDown != null)
                 DashNetWifiDown.Text = "—";
             if (DashNetWifiUp != null)
@@ -205,7 +201,7 @@ public partial class MainWindow : Window
         else
         {
             if (DashNetEthName != null)
-                DashNetEthName.Text = "🔌 Ethernet: Не підключено";
+                DashNetEthName.Text = _localization["EthNotConnected"];
             if (DashNetEthDown != null)
                 DashNetEthDown.Text = "—";
             if (DashNetEthUp != null)
@@ -227,7 +223,7 @@ public partial class MainWindow : Window
         if (metrics.WifiConnected) activeNames.Add("Wi-Fi");
         if (metrics.EthernetConnected) activeNames.Add("Ethernet");
         if (DashNetName != null)
-            DashNetName.Text = activeNames.Count > 0 ? string.Join(" + ", activeNames) : "Немає підключення";
+            DashNetName.Text = activeNames.Count > 0 ? string.Join(" + ", activeNames) : _localization["NoConnection"];
     }
 
     private void UpdateSystemInfo()
@@ -239,67 +235,80 @@ public partial class MainWindow : Window
         }
         
         if (DashSystemOS != null)
-            DashSystemOS.Text = Environment.OSVersion.ToString();
+            DashSystemOS.Text = GetWindowsVersionString();
     }
-
-    #endregion
-
-    #region CPU Panel
-
-    private void UpdateCPUInfo()
+    
+    private static string GetWindowsVersionString()
     {
-        var metrics = _cpuService.GetMetrics();
-        
-        if (CpuName != null)
-            CpuName.Text = _cpuService.CpuName ?? "Unknown CPU";
-        
-        if (CpuTotalUsage != null)
-            CpuTotalUsage.Text = $"{metrics.TotalUsage:F1}%";
-        
-        if (CpuFrequency != null)
+        try
         {
-            if (metrics.FrequencyGHz > 0)
-                CpuFrequency.Text = $"{metrics.FrequencyGHz:F2} GHz";
-            else
-                CpuFrequency.Text = _cpuService.BaseFrequency ?? "N/A";
-        }
-        
-        if (CpuCoresThreads != null)
-        {
-            if (_cpuService.PhysicalCores > 0 && _cpuService.LogicalCores > 0)
-                CpuCoresThreads.Text = $"{_cpuService.PhysicalCores} / {_cpuService.LogicalCores}";
-            else
-                CpuCoresThreads.Text = $"{Environment.ProcessorCount / 2} / {Environment.ProcessorCount}";
-        }
-        
-        // Update per-core usage
-        int coreCount = _cpuService.LogicalCores > 0 ? _cpuService.LogicalCores : Environment.ProcessorCount;
-        
-        if (_cpuCores.Count != coreCount)
-        {
-            _cpuCores.Clear();
-            for (int i = 0; i < coreCount; i++)
+            using var searcher = new System.Management.ManagementObjectSearcher(
+                "SELECT Caption, BuildNumber FROM Win32_OperatingSystem");
+            
+            foreach (var obj in searcher.Get())
             {
-                float coreUsage = (metrics.CoreUsages != null && i < metrics.CoreUsages.Length) 
-                    ? metrics.CoreUsages[i] : (float)metrics.TotalUsage;
-                _cpuCores.Add(new CpuCoreInfo
+                string caption = obj["Caption"]?.ToString() ?? "";
+                string buildNumber = obj["BuildNumber"]?.ToString() ?? "";
+                
+                // Detect Windows 11 (build >= 22000)
+                string osName;
+                if (int.TryParse(buildNumber, out int build))
                 {
-                    CoreName = $"Ядро #{i + 1}",
-                    Usage = coreUsage,
-                    UsageText = $"{coreUsage:F1}%"
-                });
+                    if (build >= 22000)
+                        osName = "Windows 11";
+                    else if (build >= 10240)
+                        osName = "Windows 10";
+                    else
+                        osName = caption;
+                }
+                else
+                {
+                    osName = caption;
+                }
+                
+                // Get display version from registry (e.g., 24H2, 25H2)
+                string displayVersion = GetWindowsDisplayVersion();
+                
+                if (!string.IsNullOrEmpty(displayVersion))
+                    return $"{osName} {displayVersion} (Build {buildNumber})";
+                else
+                    return $"{osName} (Build {buildNumber})";
             }
         }
-        else
+        catch
         {
-            for (int i = 0; i < _cpuCores.Count; i++)
+            // Fallback
+        }
+        
+        return Environment.OSVersion.ToString();
+    }
+    
+    private static string GetWindowsDisplayVersion()
+    {
+        try
+        {
+            using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
+                @"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+            
+            if (key != null)
             {
-                float coreUsage = (metrics.CoreUsages != null && i < metrics.CoreUsages.Length) 
-                    ? metrics.CoreUsages[i] : (float)metrics.TotalUsage;
-                _cpuCores[i].Usage = coreUsage;
-                _cpuCores[i].UsageText = $"{coreUsage:F1}%";
+                // Try DisplayVersion first (Windows 10 20H2+ and Windows 11)
+                var displayVersion = key.GetValue("DisplayVersion") as string;
+                if (!string.IsNullOrEmpty(displayVersion))
+                    return displayVersion;
+                
+                // Fallback to ReleaseId for older versions
+                var releaseId = key.GetValue("ReleaseId") as string;
+                if (!string.IsNullOrEmpty(releaseId))
+                    return releaseId;
             }
         }
+        catch
+        {
+            // Ignore registry errors
+        }
+        
+        return string.Empty;
     }
 
     #endregion
@@ -336,100 +345,45 @@ public partial class MainWindow : Window
         
         // Static info
         if (MemSpeed != null)
-            MemSpeed.Text = $"Частота: {_memoryService.MemorySpeed ?? "N/A"}";
+            MemSpeed.Text = $"{_localization["Frequency"]} {_memoryService.MemorySpeed ?? _localization["NA"]}";
         if (MemType != null)
-            MemType.Text = $"Тип: {_memoryService.MemoryType ?? "N/A"}";
+            MemType.Text = $"{_localization["Type"]} {_memoryService.MemoryType ?? _localization["NA"]}";
         if (MemSlots != null)
-            MemSlots.Text = $"Слоти: {_memoryService.MemorySlots ?? "N/A"}";
-        
-        if (MemCached != null)
-            MemCached.Text = "Кешовано: —";
-        if (MemCommitted != null)
-            MemCommitted.Text = "Виділено: —";
-        if (MemPaged != null)
-            MemPaged.Text = "Сторінкова: —";
+            MemSlots.Text = $"{_localization["Slots"]} {_memoryService.MemorySlots ?? _localization["NA"]}";
     }
 
     #endregion
 
     #region GPU Panel
 
-    private async Task UpdateGpuDataAsync()
-    {
-        try
-        {
-            _lastGpuMetrics = await _gpuService.GetMetricsAsync();
-        }
-        catch { }
-    }
-
     private void UpdateGPUInfo()
     {
-        // Static info
-        if (GpuName != null)
-            GpuName.Text = _gpuService.GpuName ?? "GPU не знайдено";
-        
-        if (GpuMemoryTotal != null)
-            GpuMemoryTotal.Text = _gpuService.TotalMemoryGB > 0 
-                ? $"{_gpuService.TotalMemoryGB:F0} GB" 
-                : "N/A";
-        
+        // Multi-adapter support via GpuMonitorService
+        var adapters = _gpuService.GetAdapters();
+
+        // Bind cards
+        if (GpuCards != null)
+            GpuCards.ItemsSource = adapters;
+
+        // Pick a primary adapter for header/details: prefer discrete real GPU, then anything.
+        var primary = adapters.FirstOrDefault(a => !a.IsIntegrated && !a.IsMock) ?? adapters.FirstOrDefault();
+
+        // Driver info
         if (GpuDriver != null)
-            GpuDriver.Text = $"Драйвер: {_gpuService.DriverVersion ?? "N/A"}";
+        {
+            var drv = primary?.DriverVersion;
+            if (string.IsNullOrWhiteSpace(drv))
+                drv = string.IsNullOrWhiteSpace(_gpuService.DriverVersion) ? _localization["NA"] : _gpuService.DriverVersion;
+
+            GpuDriver.Text = $"{_localization["Driver"]} {drv}";
+        }
+
         if (GpuBusInterface != null)
-            GpuBusInterface.Text = "Інтерфейс: PCIe";
-        
-        // GPU clocks (currently not available via PerformanceCounter)
-        if (GpuCoreClock != null)
-            GpuCoreClock.Text = _lastGpuMetrics.CoreClockMHz > 0 
-                ? $"{_lastGpuMetrics.CoreClockMHz:F0} MHz" 
-                : "—";
-        if (GpuMemoryClock != null)
-            GpuMemoryClock.Text = _lastGpuMetrics.MemoryClockMHz > 0 
-                ? $"{_lastGpuMetrics.MemoryClockMHz:F0} MHz" 
-                : "—";
-        
-        // GPU usage
-        if (GpuCoreUsage != null)
-            GpuCoreUsage.Text = $"{_lastGpuMetrics.Usage:F0}%";
-        if (GpuCoreProgress != null)
-            GpuCoreProgress.Value = Math.Min(100, _lastGpuMetrics.Usage);
-        
-        // GPU memory
-        if (GpuMemoryUsed != null)
-            GpuMemoryUsed.Text = _lastGpuMetrics.MemoryUsedGB > 0.01 
-                ? $"{_lastGpuMetrics.MemoryUsedGB:F2} GB" 
-                : "0 GB";
-        
-        if (GpuMemoryUsage != null)
-            GpuMemoryUsage.Text = $"{_lastGpuMetrics.MemoryUsagePercent:F0}%";
-        if (GpuMemoryProgress != null)
-            GpuMemoryProgress.Value = Math.Min(100, _lastGpuMetrics.MemoryUsagePercent);
+            GpuBusInterface.Text = $"{_localization["Interface"]} PCIe";
     }
 
     #endregion
 
-    #region Processes Panel
-
-    private async void UpdateProcessList()
-    {
-        try
-        {
-            var processData = await _processService.GetProcessesAsync();
-            
-            _processes.Clear();
-            foreach (var p in processData)
-            {
-                _processes.Add(p);
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error updating process list: {ex.Message}");
-        }
-    }
-
-    #endregion
 
     #region Event Handlers
 
@@ -439,31 +393,20 @@ public partial class MainWindow : Window
 
         // Update button states
         if (TabDashboard != null) TabDashboard.Classes.Remove("active");
-        if (TabCPU != null) TabCPU.Classes.Remove("active");
         if (TabMemory != null) TabMemory.Classes.Remove("active");
-        if (TabProcesses != null) TabProcesses.Classes.Remove("active");
         if (TabGPU != null) TabGPU.Classes.Remove("active");
         
         button.Classes.Add("active");
 
         // Show corresponding panel
         if (PanelDashboard != null) PanelDashboard.IsVisible = false;
-        if (PanelCPU != null) PanelCPU.IsVisible = false;
         if (PanelMemory != null) PanelMemory.IsVisible = false;
-        if (PanelProcesses != null) PanelProcesses.IsVisible = false;
         if (PanelGPU != null) PanelGPU.IsVisible = false;
 
         if (button.Name == "TabDashboard" && PanelDashboard != null)
             PanelDashboard.IsVisible = true;
-        else if (button.Name == "TabCPU" && PanelCPU != null)
-            PanelCPU.IsVisible = true;
         else if (button.Name == "TabMemory" && PanelMemory != null)
             PanelMemory.IsVisible = true;
-        else if (button.Name == "TabProcesses" && PanelProcesses != null)
-        {
-            PanelProcesses.IsVisible = true;
-            UpdateProcessList();
-        }
         else if (button.Name == "TabGPU" && PanelGPU != null)
             PanelGPU.IsVisible = true;
     }
@@ -484,7 +427,7 @@ public partial class MainWindow : Window
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         _updateTimer?.Stop();
-        _cpuService.Dispose();
+        _hardwareService.Dispose();
         _gpuService.Dispose();
         Close();
     }
@@ -494,20 +437,125 @@ public partial class MainWindow : Window
         UpdateAllData();
     }
 
-    private void RefreshProcesses_Click(object sender, RoutedEventArgs e)
+    private void SettingsButton_Click(object sender, RoutedEventArgs e)
     {
-        UpdateProcessList();
+        var settingsWindow = new SettingsWindow();
+        settingsWindow.SetLanguageChangedCallback(UpdateLocalizedStrings);
+        settingsWindow.ShowDialog(this);
     }
 
-    private void KillProcess_Click(object sender, RoutedEventArgs e)
+    #endregion
+
+    #region Localization
+
+    private void UpdateLocalizedStrings()
     {
-        if (ProcessDataGrid?.SelectedItem is ProcessInfo processInfo)
+        // Window title
+        if (WindowTitle != null)
+            WindowTitle.Text = _localization["AppTitle"];
+
+        Title = _localization["AppTitle"];
+
+        // Tab buttons
+        if (TabDashboard != null)
+            TabDashboard.Content = _localization["TabDashboard"];
+        if (TabMemory != null)
+            TabMemory.Content = _localization["TabMemory"];
+        if (TabGPU != null)
+            TabGPU.Content = _localization["TabGPU"];
+
+        // Dashboard - CPU Card
+        if (DashCpuLabel != null)
+            DashCpuLabel.Text = _localization["CPU"];
+        if (DashCpuCoresLabel != null)
+            DashCpuCoresLabel.Text = _localization["CoresPhysLog"];
+
+        // Dashboard - RAM Card
+        if (DashRamLabel != null)
+            DashRamLabel.Text = _localization["Memory"];
+        if (DashRamUsedLabel != null)
+            DashRamUsedLabel.Text = _localization["Used"];
+        if (DashRamAvailLabel != null)
+            DashRamAvailLabel.Text = _localization["Available"];
+
+        // Dashboard - Disk Card
+        if (DashDiskLabel != null)
+            DashDiskLabel.Text = _localization["Disk"];
+        if (DashDiskUsedLabel != null)
+            DashDiskUsedLabel.Text = _localization["Used"];
+        if (DashDiskTotalLabel != null)
+            DashDiskTotalLabel.Text = _localization["Total"];
+
+        // Dashboard - Network Card
+        if (DashNetLabel != null)
+            DashNetLabel.Text = _localization["Network"];
+        if (DashNetDownLabel != null)
+            DashNetDownLabel.Text = _localization["Download"];
+        if (DashNetUpLabel != null)
+            DashNetUpLabel.Text = _localization["Upload"];
+        if (DashNetReceivedLabel != null)
+            DashNetReceivedLabel.Text = _localization["Received"];
+        if (DashNetSentLabel != null)
+            DashNetSentLabel.Text = _localization["Sent"];
+
+        // Dashboard - System Card
+        if (DashSystemLabel != null)
+            DashSystemLabel.Text = _localization["System"];
+        if (DashUpdateTimeLabel != null)
+            DashUpdateTimeLabel.Text = _localization["UpdateTime"];
+        if (DashUpdateTime != null)
+            DashUpdateTime.Text = $"1 {_localization["Second"]}";
+        if (BtnRefreshDash != null)
+            BtnRefreshDash.Content = _localization["Refresh"];
+
+        // Memory Panel
+        if (MemDetailsLabel != null)
+            MemDetailsLabel.Text = _localization["MemoryDetails"];
+        if (MemRamLabel != null)
+            MemRamLabel.Text = _localization["RAM"];
+        if (MemTotalLabel != null)
+            MemTotalLabel.Text = _localization["Total"];
+        if (MemUsedLabel != null)
+            MemUsedLabel.Text = _localization["Used"];
+        if (MemAvailLabel != null)
+            MemAvailLabel.Text = _localization["Available"];
+        if (MemUsageLabel != null)
+            MemUsageLabel.Text = _localization["Usage"];
+
+        // Memory Panel - Swap
+        if (MemSwapLabel != null)
+            MemSwapLabel.Text = _localization["SwapFile"];
+        if (MemSwapTotalLabel != null)
+            MemSwapTotalLabel.Text = _localization["Total"];
+        if (MemSwapUsedLabel != null)
+            MemSwapUsedLabel.Text = _localization["Used"];
+        if (MemSwapAvailLabel != null)
+            MemSwapAvailLabel.Text = _localization["Available"];
+        if (MemSwapUsageLabel != null)
+            MemSwapUsageLabel.Text = _localization["Usage"];
+
+        // Memory Panel - Additional Info
+        if (MemAdditionalInfoLabel != null)
+            MemAdditionalInfoLabel.Text = _localization["AdditionalInfo"];
+
+        // GPU Panel
+        if (GpuDetailsLabel != null)
+            GpuDetailsLabel.Text = _localization["GPUDetails"];
+        if (GpuTechDataLabel != null)
+            GpuTechDataLabel.Text = _localization["TechData"];
+        if (GpuBusInterface != null)
+            GpuBusInterface.Text = $"{_localization["Interface"]} PCIe";
+        
+        // Refresh GPU cards to update localized converters
+        if (GpuCards != null)
         {
-            if (_processService.KillProcess(processInfo.Id))
-            {
-                UpdateProcessList();
-            }
+            var adapters = _gpuService.GetAdapters();
+            GpuCards.ItemsSource = null;
+            GpuCards.ItemsSource = adapters;
         }
+        
+        // Also update other dynamic values in Memory panel
+        UpdateMemoryInfo();
     }
 
     #endregion

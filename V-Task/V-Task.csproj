@@ -5,14 +5,17 @@
         <Nullable>enable</Nullable>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+        <ApplicationIcon>Modern_minimal_app_icon_for_a_.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.3.0"/>
-        <PackageReference Include="Avalonia.Desktop" Version="11.3.0"/>
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.0"/>
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.0"/>
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.0"/>
+        <PackageReference Include="Avalonia" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.0" />
+        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.4" />
+        <PackageReference Include="LiteDB" Version="5.0.21" />
         <PackageReference Include="System.Management" Version="9.0.0"/>
         <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.0"/>
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
@@ -26,6 +29,20 @@
       <AvaloniaXaml Update="MainWindow.axaml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </AvaloniaXaml>
+    </ItemGroup>
+
+    <ItemGroup>
+      <AvaloniaResource Include="Resources\Strings.uk.axaml" />
+      <AvaloniaResource Include="Resources\Strings.ru.axaml" />
+      <AvaloniaResource Include="Resources\Strings.en.axaml" />
+      <AvaloniaResource Include="Resources\Strings.de.axaml" />
+      <AvaloniaResource Include="Resources\Strings.tr.axaml" />
+      <AvaloniaResource Include="Icons\**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Icons\CloseButton.png" />
+      <None Remove="Icons\MinButton.png" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,92 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- English Localization                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Window -->
+    <sys:String x:Key="AppTitle">V-Task - Resource Monitor</sys:String>
+    
+    <!-- Tabs -->
+    <sys:String x:Key="TabDashboard">📊 Dashboard</sys:String>
+    <sys:String x:Key="TabMemory">💾 Memory</sys:String>
+    <sys:String x:Key="TabGPU">🎮 GPU</sys:String>
+    
+    <!-- Dashboard - CPU -->
+    <sys:String x:Key="CPU">🧠 CPU</sys:String>
+    <sys:String x:Key="DetectingProcessor">Detecting processor…</sys:String>
+    <sys:String x:Key="CoresPhysLog">Cores (phys/log):</sys:String>
+    
+    <!-- Dashboard - Memory -->
+    <sys:String x:Key="Memory">💾 Memory</sys:String>
+    <sys:String x:Key="Calculating">Calculating…</sys:String>
+    <sys:String x:Key="Used">Used</sys:String>
+    <sys:String x:Key="Available">Available</sys:String>
+    <sys:String x:Key="Total">Total</sys:String>
+    
+    <!-- Dashboard - Disk -->
+    <sys:String x:Key="Disk">💿 Disk</sys:String>
+    
+    <!-- Dashboard - Network -->
+    <sys:String x:Key="Network">🌐 Network</sys:String>
+    <sys:String x:Key="Download">↓ Download</sys:String>
+    <sys:String x:Key="Upload">↑ Upload</sys:String>
+    <sys:String x:Key="Received">Received</sys:String>
+    <sys:String x:Key="Sent">Sent</sys:String>
+    <sys:String x:Key="WiFiNotConnected">📶 Wi-Fi: Not connected</sys:String>
+    <sys:String x:Key="EthNotConnected">🔌 Ethernet: Not connected</sys:String>
+    <sys:String x:Key="NoConnection">No connection</sys:String>
+    
+    <!-- Dashboard - System -->
+    <sys:String x:Key="System">💻 System</sys:String>
+    <sys:String x:Key="Uptime">Uptime:</sys:String>
+    <sys:String x:Key="UpdateTime">🕐 Update time</sys:String>
+    <sys:String x:Key="Second">second</sys:String>
+    <sys:String x:Key="Refresh">Refresh</sys:String>
+    
+    <!-- Memory Panel -->
+    <sys:String x:Key="MemoryDetails">💾 Memory details</sys:String>
+    <sys:String x:Key="RAM">RAM (Random Access Memory)</sys:String>
+    <sys:String x:Key="SwapFile">Swap / Page File</sys:String>
+    <sys:String x:Key="Usage">Usage</sys:String>
+    <sys:String x:Key="AdditionalInfo">📊 Additional information</sys:String>
+    <sys:String x:Key="Frequency">Frequency:</sys:String>
+    <sys:String x:Key="Type">Type:</sys:String>
+    <sys:String x:Key="Slots">Slots:</sys:String>
+    
+    <!-- GPU Panel -->
+    <sys:String x:Key="GPUDetails">🎮 GPU details</sys:String>
+    <sys:String x:Key="GPUMemory">GPU Memory</sys:String>
+    <sys:String x:Key="Status">Status</sys:String>
+    <sys:String x:Key="TechData">🔧 Technical data</sys:String>
+    <sys:String x:Key="Driver">Driver:</sys:String>
+    <sys:String x:Key="Interface">Interface:</sys:String>
+    <sys:String x:Key="NA">N/A</sys:String>
+    
+    <!-- Settings -->
+    <sys:String x:Key="Settings">⚙️ Settings</sys:String>
+    <sys:String x:Key="General">General</sys:String>
+    <sys:String x:Key="Language">Language</sys:String>
+    <sys:String x:Key="SelectLanguage">Select language:</sys:String>
+    <sys:String x:Key="About">About app</sys:String>
+    <sys:String x:Key="AboutApp">About V-Task</sys:String>
+    <sys:String x:Key="Version">Version:</sys:String>
+    <sys:String x:Key="Author">Author:</sys:String>
+    <sys:String x:Key="AuthorName">Oleh Kurylo</sys:String>
+    <sys:String x:Key="Description">Description:</sys:String>
+    <sys:String x:Key="AppDescription">V-Task is a modern system resource monitor for Windows, built with Avalonia UI.</sys:String>
+    <sys:String x:Key="Close">Close</sys:String>
+    <sys:String x:Key="Apply">Apply</sys:String>
+    
+    <!-- GPU Status -->
+    <sys:String x:Key="GpuActive">Active</sys:String>
+    <sys:String x:Key="GpuInactive">Inactive</sys:String>
+    <sys:String x:Key="GpuDiscrete">Discrete GPU</sys:String>
+    <sys:String x:Key="GpuIntegrated">Integrated GPU</sys:String>
+    <sys:String x:Key="GpuOther">Other GPU</sys:String>
+    <sys:String x:Key="GpuUsed">Used:</sys:String>
+    <sys:String x:Key="Technologies">🛠️ Technologies</sys:String>
+
+</ResourceDictionary>
