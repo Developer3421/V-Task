@@ -532,12 +532,12 @@
                                       CanUserResizeColumns="True"
                                       x:DataType="models:ProcessInfo">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="PID" Binding="{Binding Id}" Width="80" x:DataType="local:ProcessInfo"/>
-                                    <DataGridTextColumn Header="Назва процесу" Binding="{Binding ProcessName}" Width="250" x:DataType="local:ProcessInfo"/>
-                                    <DataGridTextColumn Header="CPU %" Binding="{Binding CpuUsage}" Width="100" x:DataType="local:ProcessInfo"/>
-                                    <DataGridTextColumn Header="RAM (MB)" Binding="{Binding MemoryMB}" Width="120" x:DataType="local:ProcessInfo"/>
-                                    <DataGridTextColumn Header="Потоки" Binding="{Binding Threads}" Width="100" x:DataType="local:ProcessInfo"/>
-                                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120" x:DataType="local:ProcessInfo"/>
+                                    <DataGridTextColumn Header="PID" Binding="{Binding Id}" Width="80" x:DataType="models:ProcessInfo"/>
+                                    <DataGridTextColumn Header="Назва процесу" Binding="{Binding ProcessName}" Width="250" x:DataType="models:ProcessInfo"/>
+                                    <DataGridTextColumn Header="CPU %" Binding="{Binding CpuUsage}" Width="100" x:DataType="models:ProcessInfo"/>
+                                    <DataGridTextColumn Header="RAM (MB)" Binding="{Binding MemoryMB}" Width="120" x:DataType="models:ProcessInfo"/>
+                                    <DataGridTextColumn Header="Потоки" Binding="{Binding Threads}" Width="100" x:DataType="models:ProcessInfo"/>
+                                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120" x:DataType="models:ProcessInfo"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
