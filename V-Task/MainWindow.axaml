@@ -1,0 +1,612 @@
+
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:V_Task"
+        xmlns:models="clr-namespace:V_Task.Models"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
+        x:Class="V_Task.MainWindow"
+        Title="V-Task - Монітор Ресурсів"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="None"
+        Width="950"
+        Height="750"
+        MinWidth="800"
+        MinHeight="600"
+        CanResize="True"
+        UseLayoutRounding="True"
+        FontFamily="Segoe UI, Arial, Tahoma"
+        Background="#FFF5E6D3">
+
+    <!-- ╔══════════════════════════════════════════════════════════════════════╗ -->
+    <!-- ║                         LOCAL RESOURCES                               ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════════════╝ -->
+    <Window.Resources>
+        
+        <!-- Base Colors -->
+        <Color x:Key="AppBgColor">#FFF5E6D3</Color>
+        <Color x:Key="AppSurfaceColor">#FFFDF7EF</Color>
+        <Color x:Key="AppBorderColor">#FFE8D5B7</Color>
+        <Color x:Key="AppTextColor">#FF404040</Color>
+        <Color x:Key="AppTextMutedColor">#FF606060</Color>
+
+        <!-- Accent Colors -->
+        <Color x:Key="AccentOrangeColor">#FFFF8C00</Color>
+        <Color x:Key="AccentOrangeHoverColor">#FFFFA000</Color>
+        <Color x:Key="AccentPurpleColor">#7D2AE8</Color>
+        <Color x:Key="AccentPurpleHoverColor">#A78BFA</Color>
+
+        <!-- Status Colors -->
+        <Color x:Key="SuccessColor">#FF10B981</Color>
+        <Color x:Key="WarningColor">#FFF59E0B</Color>
+        <Color x:Key="DangerColor">#FFEF4444</Color>
+
+        <!-- Solid Color Brushes -->
+        <SolidColorBrush x:Key="AppBgBrush" Color="{StaticResource AppBgColor}" />
+        <SolidColorBrush x:Key="AppSurfaceBrush" Color="{StaticResource AppSurfaceColor}" />
+        <SolidColorBrush x:Key="AppBorderBrush" Color="{StaticResource AppBorderColor}" />
+        <SolidColorBrush x:Key="AppTextBrush" Color="{StaticResource AppTextColor}" />
+        <SolidColorBrush x:Key="AppTextMutedBrush" Color="{StaticResource AppTextMutedColor}" />
+
+        <SolidColorBrush x:Key="AccentOrangeBrush" Color="{StaticResource AccentOrangeColor}" />
+        <SolidColorBrush x:Key="AccentOrangeHoverBrush" Color="{StaticResource AccentOrangeHoverColor}" />
+        <SolidColorBrush x:Key="AccentPurpleBrush" Color="{StaticResource AccentPurpleColor}" />
+        <SolidColorBrush x:Key="AccentPurpleHoverBrush" Color="{StaticResource AccentPurpleHoverColor}" />
+
+        <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+        <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}" />
+        <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}" />
+
+        <!-- Gray Gradient for Title Bar -->
+        <LinearGradientBrush x:Key="GrayGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFE0E0E0" Offset="0"/>
+            <GradientStop Color="#FFD0D0D0" Offset="0.3"/>
+            <GradientStop Color="#FFC5C5C5" Offset="0.7"/>
+            <GradientStop Color="#FFC0C0C0" Offset="1"/>
+        </LinearGradientBrush>
+        
+    </Window.Resources>
+
+    <!-- ╔══════════════════════════════════════════════════════════════════════╗ -->
+    <!-- ║                          LOCAL STYLES                                 ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════════════╝ -->
+    <Window.Styles>
+        
+        <!-- Window Control Buttons -->
+        <Style Selector="Button.window-control">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#303030"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.window-control:pointerover">
+            <Setter Property="Background" Value="#40FFFFFF"/>
+        </Style>
+        <Style Selector="Button.window-control.close:pointerover">
+            <Setter Property="Background" Value="#40FF5C5C"/>
+        </Style>
+
+        <!-- Panel Style -->
+        <Style Selector="Border.panel">
+            <Setter Property="Background" Value="{StaticResource AppSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+        </Style>
+
+        <!-- Tab Button Style -->
+        <Style Selector="Button.tab-button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource AppTextMutedBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Margin" Value="4,0"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+        <Style Selector="Button.tab-button:pointerover">
+            <Setter Property="Background" Value="#20000000"/>
+            <Setter Property="Foreground" Value="{StaticResource AppTextBrush}"/>
+        </Style>
+        <Style Selector="Button.tab-button.active">
+            <Setter Property="Background" Value="{StaticResource AccentPurpleBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="Button.tab-button.active:pointerover">
+            <Setter Property="Background" Value="{StaticResource AccentPurpleHoverBrush}"/>
+        </Style>
+
+        <!-- Action Button Style -->
+        <Style Selector="Button.action-button">
+            <Setter Property="Background" Value="{StaticResource AccentOrangeBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="12,6"/>
+        </Style>
+        <Style Selector="Button.action-button:pointerover">
+            <Setter Property="Background" Value="{StaticResource AccentOrangeHoverBrush}"/>
+        </Style>
+        <Style Selector="Button.action-button:pressed">
+            <Setter Property="Background" Value="#FFE07800"/>
+        </Style>
+
+        <!-- Danger Button Style -->
+        <Style Selector="Button.danger-button">
+            <Setter Property="Background" Value="{StaticResource DangerBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+        <Style Selector="Button.danger-button:pointerover">
+            <Setter Property="Background" Value="#FFDC2626"/>
+        </Style>
+
+        <!-- DataGrid Style -->
+        <Style Selector="DataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="RowBackground" Value="{StaticResource AppSurfaceBrush}"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource AppBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+        </Style>
+
+        <!-- Progress Bar Style -->
+        <Style Selector="ProgressBar">
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="#FFE8D5B7"/>
+        </Style>
+        
+    </Window.Styles>
+
+    <!-- ╔══════════════════════════════════════════════════════════════════════╗ -->
+    <!-- ║                         MAIN CONTENT                                  ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════════════╝ -->
+    
+    <Border Background="Transparent" Margin="2" BorderThickness="1" BorderBrush="Transparent">
+        <Grid RowDefinitions="42,Auto,*">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource AppBgColor}"/>
+            </Grid.Background>
+
+            <!-- ════════════════════════════════════════════════════════════════ -->
+            <!-- ROW 0: TITLE BAR                                                 -->
+            <!-- ════════════════════════════════════════════════════════════════ -->
+            <Grid Grid.Row="0" Name="TitleBar" Background="{StaticResource GrayGradient}">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+
+                    <!-- Left: Icon + Title -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                        <!-- App Icon -->
+                        <Border Width="28" Height="28" CornerRadius="6" Background="{StaticResource AccentPurpleBrush}" Margin="0,0,10,0">
+                            <TextBlock Text="⚡" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="V-Task - Монітор Ресурсів"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource AppTextBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Middle: Draggable Space -->
+                    <Panel Name="TitleBarDragArea" Grid.Column="1" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
+
+                    <!-- Right: Window Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Stretch">
+                        <Button Name="MinimizeButton" Classes="window-control" Padding="0" Width="46" Height="42" Click="MinimizeButton_Click">
+                            <PathIcon Data="M20,14H4V10H20" Width="16" Height="16" Foreground="#303030"/>
+                        </Button>
+                        <Button Name="CloseButton" Classes="window-control close" Padding="0" Width="46" Height="42" Click="CloseButton_Click">
+                            <PathIcon Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Width="16" Height="16" Foreground="#303030"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!-- ════════════════════════════════════════════════════════════════ -->
+            <!-- ROW 1: TAB NAVIGATION                                            -->
+            <!-- ════════════════════════════════════════════════════════════════ -->
+            <Border Grid.Row="1" Classes="panel" Margin="12,12,12,8" Padding="8">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="TabDashboard" Classes="tab-button active" Content="📊 Dashboard" Click="TabButton_Click"/>
+                    <Button Name="TabCPU" Classes="tab-button" Content="🖥️ CPU" Click="TabButton_Click"/>
+                    <Button Name="TabMemory" Classes="tab-button" Content="💾 Memory" Click="TabButton_Click"/>
+                    <Button Name="TabProcesses" Classes="tab-button" Content="⚙️ Processes" Click="TabButton_Click"/>
+                    <Button Name="TabGPU" Classes="tab-button" Content="🎮 GPU" Click="TabButton_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════════════ -->
+            <!-- ROW 2: CONTENT AREA (TAB PANELS)                                 -->
+            <!-- ════════════════════════════════════════════════════════════════ -->
+            <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <Panel Margin="12,4,12,12">
+                    
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- DASHBOARD PANEL                                             -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <Border Name="PanelDashboard" Classes="panel" Padding="16" IsVisible="True">
+                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*">
+                            
+                            <!-- CPU Card -->
+                            <Border Grid.Row="0" Grid.Column="0" Classes="panel" Margin="4" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="🖥️ CPU" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                    <TextBlock Name="DashCpuName" Text="Loading..." FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,0,0,4"/>
+                                    <TextBlock Name="DashCpuUsage" Text="0%" FontSize="36" FontWeight="Bold" Foreground="{StaticResource AccentOrangeBrush}" Margin="0,4"/>
+                                    <ProgressBar Name="DashCpuProgress" Value="0" Maximum="100" Margin="0,4"/>
+                                    <Grid ColumnDefinitions="*,*" Margin="0,8,0,0">
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Частота" FontSize="11" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashCpuFreq" Text="0 GHz" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="Ядра / Потоки" FontSize="11" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashCpuCores" Text="0 / 0" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- RAM Card -->
+                            <Border Grid.Row="0" Grid.Column="1" Classes="panel" Margin="4" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="💾 Memory" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                    <TextBlock Name="DashRamTotal" Text="0 GB" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,0,0,4"/>
+                                    <TextBlock Name="DashRamUsage" Text="0%" FontSize="36" FontWeight="Bold" Foreground="{StaticResource AccentPurpleBrush}" Margin="0,4"/>
+                                    <ProgressBar Name="DashRamProgress" Value="0" Maximum="100" Margin="0,4"/>
+                                    <Grid ColumnDefinitions="*,*" Margin="0,8,0,0">
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Використано" FontSize="11" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashRamUsed" Text="0 GB" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="Доступно" FontSize="11" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashRamAvail" Text="0 GB" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Disk Card -->
+                            <Border Grid.Row="1" Grid.Column="0" Classes="panel" Margin="4" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="💿 Disk" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                    <TextBlock Name="DashDiskName" Text="C:\\" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,0,0,4"/>
+                                    <TextBlock Name="DashDiskUsage" Text="0%" FontSize="36" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" Margin="0,4"/>
+                                    <ProgressBar Name="DashDiskProgress" Value="0" Maximum="100" Margin="0,4"/>
+                                    <Grid ColumnDefinitions="*,*" Margin="0,8,0,0">
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Використано" FontSize="11" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashDiskUsed" Text="0 GB" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="Всього" FontSize="11" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashDiskTotal" Text="0 GB" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Network Card -->
+                            <Border Grid.Row="1" Grid.Column="1" Classes="panel" Margin="4" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="🌐 Network" FontSize="18" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,4"/>
+                                    <TextBlock Name="DashNetName" Text="Loading..." FontSize="11" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,0,0,4"/>
+                                    
+                                    <!-- Combined Speed -->
+                                    <Grid ColumnDefinitions="*,*" Margin="0,4,0,4">
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="↓ Завантаження" FontSize="10" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashNetDown" Text="0 KB/s" FontSize="16" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="↑ Вивантаження" FontSize="10" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashNetUp" Text="0 KB/s" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentOrangeBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <!-- WiFi Interface -->
+                                    <Border Background="#15FFFFFF" CornerRadius="4" Padding="6" Margin="0,4,0,2">
+                                        <Grid ColumnDefinitions="*,Auto,Auto">
+                                            <TextBlock Name="DashNetWifiName" Grid.Column="0" Text="📶 Wi-Fi" FontSize="10" Foreground="{StaticResource AppTextMutedBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Name="DashNetWifiDown" Grid.Column="1" Text="0 KB/s" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource SuccessBrush}" Margin="8,0" VerticalAlignment="Center"/>
+                                            <TextBlock Name="DashNetWifiUp" Grid.Column="2" Text="0 KB/s" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource AccentOrangeBrush}" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    
+                                    <!-- Ethernet Interface -->
+                                    <Border Background="#15FFFFFF" CornerRadius="4" Padding="6" Margin="0,2,0,4">
+                                        <Grid ColumnDefinitions="*,Auto,Auto">
+                                            <TextBlock Name="DashNetEthName" Grid.Column="0" Text="🔌 Ethernet" FontSize="10" Foreground="{StaticResource AppTextMutedBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Name="DashNetEthDown" Grid.Column="1" Text="0 KB/s" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource SuccessBrush}" Margin="8,0" VerticalAlignment="Center"/>
+                                            <TextBlock Name="DashNetEthUp" Grid.Column="2" Text="0 KB/s" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource AccentOrangeBrush}" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    
+                                    <!-- Totals -->
+                                    <Grid ColumnDefinitions="*,*" Margin="0,2,0,0">
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Отримано" FontSize="10" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashNetTotalDown" Text="0 MB" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="Відправлено" FontSize="10" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="DashNetTotalUp" Text="0 MB" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- System Info Card -->
+                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Classes="panel" Margin="4" Padding="12">
+                                <Grid ColumnDefinitions="*,*,*,*">
+                                    <StackPanel Grid.Column="0" Margin="8,0">
+                                        <TextBlock Text="💻 Система" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Name="DashSystemOS" Text="Windows 11" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <TextBlock Name="DashSystemUptime" Text="Uptime: 0h 0m" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Margin="8,0">
+                                        <TextBlock Text="⚡ Процеси" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Name="DashProcessCount" Text="0 процесів" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <TextBlock Name="DashThreadCount" Text="0 потоків" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Margin="8,0">
+                                        <TextBlock Text="🔋 Батарея" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Name="DashBatteryStatus" Text="Charging" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <TextBlock Name="DashBatteryPercent" Text="100%" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="3" Margin="8,0">
+                                        <TextBlock Text="🕐 Час оновлення" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Name="DashUpdateTime" Text="1 секунда" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <Button Name="BtnRefreshDash" Classes="action-button" Content="Оновити" Margin="0,4,0,0" Click="RefreshDashboard_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- CPU PANEL                                                   -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <Border Name="PanelCPU" Classes="panel" Padding="16" IsVisible="False">
+                        <StackPanel>
+                            <TextBlock Text="🖥️ Детальна інформація про CPU" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,12"/>
+                            
+                            <!-- CPU Overview -->
+                            <Border Classes="panel" Padding="12" Margin="0,0,0,12">
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*,*">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                                        <TextBlock Text="Процесор" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="CpuName" Text="Loading..." FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                                        <TextBlock Text="Загальне завантаження" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="CpuTotalUsage" Text="0%" FontSize="24" FontWeight="Bold" Foreground="{StaticResource AccentOrangeBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="8">
+                                        <TextBlock Text="Частота" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="CpuFrequency" Text="0 GHz" FontSize="24" FontWeight="Bold" Foreground="{StaticResource AccentPurpleBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="8">
+                                        <TextBlock Text="Ядра / Потоки" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="CpuCoresThreads" Text="0 / 0" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Per-Core Usage -->
+                            <TextBlock Text="Завантаження по ядрах" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,8,0,8"/>
+                            <ScrollViewer MaxHeight="400">
+                                <ItemsControl Name="CpuCoresList">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="models:CpuCoreInfo">
+                                            <Border Classes="panel" Padding="12" Margin="0,4">
+                                                <Grid ColumnDefinitions="100,*,80">
+                                                    <TextBlock Grid.Column="0" Text="{Binding CoreName}" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                    <ProgressBar Grid.Column="1" Value="{Binding Usage}" Maximum="100" Height="20" Margin="8,0"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding UsageText}" FontSize="13" FontWeight="Bold" Foreground="{StaticResource AccentOrangeBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- MEMORY PANEL                                                -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <Border Name="PanelMemory" Classes="panel" Padding="16" IsVisible="False">
+                        <StackPanel>
+                            <TextBlock Text="💾 Детальна інформація про пам'ять" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,12"/>
+                            
+                            <!-- RAM Info -->
+                            <Border Classes="panel" Padding="12" Margin="0,0,0,12">
+                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                    <TextBlock Grid.Row="0" Text="Оперативна пам'ять (RAM)" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,12"/>
+                                    <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*">
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="Всього" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemTotalRam" Text="0 GB" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="8">
+                                            <TextBlock Text="Використано" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemUsedRam" Text="0 GB" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AccentPurpleBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Margin="8">
+                                            <TextBlock Text="Доступно" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemAvailRam" Text="0 GB" FontSize="20" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Margin="8">
+                                            <TextBlock Text="Використання" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemUsageRam" Text="0%" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AccentOrangeBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <ProgressBar Grid.Row="2" Name="MemRamProgress" Value="0" Maximum="100" Height="16" Margin="8,12,8,0"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Swap/Page File Info -->
+                            <Border Classes="panel" Padding="12" Margin="0,0,0,12">
+                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                    <TextBlock Grid.Row="0" Text="Файл підкачки (Swap / Page File)" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,12"/>
+                                    <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*">
+                                        <StackPanel Grid.Column="0" Margin="8">
+                                            <TextBlock Text="Всього" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemTotalSwap" Text="0 GB" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="8">
+                                            <TextBlock Text="Використано" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemUsedSwap" Text="0 GB" FontSize="20" FontWeight="Bold" Foreground="{StaticResource WarningBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Margin="8">
+                                            <TextBlock Text="Доступно" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemAvailSwap" Text="0 GB" FontSize="20" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Margin="8">
+                                            <TextBlock Text="Використання" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                            <TextBlock Name="MemUsageSwap" Text="0%" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AccentOrangeBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <ProgressBar Grid.Row="2" Name="MemSwapProgress" Value="0" Maximum="100" Height="16" Margin="8,12,8,0"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Memory Details -->
+                            <Border Classes="panel" Padding="12">
+                                <Grid ColumnDefinitions="*,*">
+                                    <StackPanel Grid.Column="0" Margin="8">
+                                        <TextBlock Text="📊 Додаткова інформація" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Name="MemSpeed" Text="Частота: 0 MHz" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <TextBlock Name="MemType" Text="Тип: DDR4" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <TextBlock Name="MemSlots" Text="Слоти: 0 / 0" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Margin="8">
+                                        <TextBlock Text="🔄 Кешування" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Name="MemCached" Text="Кешовано: 0 GB" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <TextBlock Name="MemCommitted" Text="Виділено: 0 GB" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                        <TextBlock Name="MemPaged" Text="Сторінкова: 0 GB" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- PROCESSES PANEL                                             -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <Border Name="PanelProcesses" Classes="panel" Padding="16" IsVisible="False">
+                        <Grid RowDefinitions="Auto,Auto,*">
+                            <TextBlock Grid.Row="0" Text="⚙️ Список процесів" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,12"/>
+                            
+                            <!-- Controls -->
+                            <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,12">
+                                <TextBox Name="ProcessSearchBox" Grid.Column="0" Watermark="Пошук процесів..." Padding="8" FontSize="13" Margin="0,0,8,0"/>
+                                <Button Name="BtnRefreshProcesses" Grid.Column="1" Classes="action-button" Content="🔄 Оновити" Margin="0,0,8,0" Click="RefreshProcesses_Click"/>
+                                <Button Name="BtnKillProcess" Grid.Column="2" Classes="danger-button" Content="❌ Завершити" Click="KillProcess_Click"/>
+                            </Grid>
+
+                            <!-- Process List -->
+                            <DataGrid Grid.Row="2" Name="ProcessDataGrid" 
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      SelectionMode="Single"
+                                      CanUserResizeColumns="True"
+                                      x:DataType="models:ProcessInfo">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="PID" Binding="{Binding Id}" Width="80" x:DataType="local:ProcessInfo"/>
+                                    <DataGridTextColumn Header="Назва процесу" Binding="{Binding ProcessName}" Width="250" x:DataType="local:ProcessInfo"/>
+                                    <DataGridTextColumn Header="CPU %" Binding="{Binding CpuUsage}" Width="100" x:DataType="local:ProcessInfo"/>
+                                    <DataGridTextColumn Header="RAM (MB)" Binding="{Binding MemoryMB}" Width="120" x:DataType="local:ProcessInfo"/>
+                                    <DataGridTextColumn Header="Потоки" Binding="{Binding Threads}" Width="100" x:DataType="local:ProcessInfo"/>
+                                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120" x:DataType="local:ProcessInfo"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- GPU PANEL                                                   -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <Border Name="PanelGPU" Classes="panel" Padding="16" IsVisible="False">
+                        <StackPanel>
+                            <TextBlock Text="🎮 Детальна інформація про GPU" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,12"/>
+                            
+                            <!-- GPU Overview -->
+                            <Border Classes="panel" Padding="12" Margin="0,0,0,12">
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="8,0,8,12">
+                                        <TextBlock Text="Відеокарта" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="GpuName" Text="Loading..." FontSize="16" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="8">
+                                        <TextBlock Text="Завантаження GPU" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="GpuCoreUsage" Text="0%" FontSize="24" FontWeight="Bold" Foreground="{StaticResource AccentOrangeBrush}"/>
+                                        <ProgressBar Name="GpuCoreProgress" Value="0" Maximum="100" Margin="0,4"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="8">
+                                        <TextBlock Text="Пам'ять GPU" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="GpuMemoryUsage" Text="0%" FontSize="24" FontWeight="Bold" Foreground="{StaticResource AccentPurpleBrush}"/>
+                                        <ProgressBar Name="GpuMemoryProgress" Value="0" Maximum="100" Margin="0,4"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- GPU Details -->
+                            <Border Classes="panel" Padding="12" Margin="0,0,0,12">
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*,*,*">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Text="📊 Детальна інформація" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="8,0,8,12"/>
+                                    
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="8">
+                                        <TextBlock Text="Всього пам'яті" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="GpuMemoryTotal" Text="0 GB" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="8">
+                                        <TextBlock Text="Використано" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="GpuMemoryUsed" Text="0 GB" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="8">
+                                        <TextBlock Text="Частота ядра" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="GpuCoreClock" Text="0 MHz" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="3" Margin="8">
+                                        <TextBlock Text="Частота пам'яті" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                                        <TextBlock Name="GpuMemoryClock" Text="0 MHz" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource AppTextBrush}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Additional GPU Info -->
+                            <Border Classes="panel" Padding="12">
+                                <StackPanel Margin="8">
+                                    <TextBlock Text="🔧 Технічні дані" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}" Margin="0,0,0,8"/>
+                                    <TextBlock Name="GpuDriver" Text="Драйвер: N/A" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                    <TextBlock Name="GpuBusInterface" Text="Інтерфейс: PCIe" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}" Margin="0,2"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                </Panel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>
