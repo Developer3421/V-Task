@@ -155,7 +155,7 @@
                     <!-- Right: Window Controls -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Stretch">
                         <Button Name="CloseButton" Classes="window-control close" Padding="0" Width="46" Height="42" Click="CloseButton_Click">
-                            <Image Source="/Icons/CloseButton.png" Width="16" Height="16"/>
+                            <Image Source="/Icons/CloseButton.png" Width="32" Height="32"/>
                         </Button>
                     </StackPanel>
                 </Grid>
