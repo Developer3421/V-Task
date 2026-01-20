@@ -1,0 +1,192 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="550"
+        x:Class="V_Task.UserAgreementWindow"
+        Title="Угода користувача"
+        WindowStartupLocation="CenterOwner"
+        SystemDecorations="None"
+        Width="550"
+        Height="550"
+        MinWidth="450"
+        MinHeight="450"
+        CanResize="False"
+        UseLayoutRounding="True"
+        FontFamily="Segoe UI, Arial, Tahoma"
+        Background="#FFF5E6D3">
+
+    <Window.Resources>
+        <!-- Base Colors -->
+        <Color x:Key="AppBgColor">#FFF5E6D3</Color>
+        <Color x:Key="AppSurfaceColor">#FFFDF7EF</Color>
+        <Color x:Key="AppBorderColor">#FFE8D5B7</Color>
+        <Color x:Key="AppTextColor">#FF404040</Color>
+        <Color x:Key="AppTextMutedColor">#FF606060</Color>
+
+        <!-- Accent Colors -->
+        <Color x:Key="AccentOrangeColor">#FFFF8C00</Color>
+        <Color x:Key="AccentOrangeHoverColor">#FFFFA000</Color>
+        <Color x:Key="AccentPurpleColor">#7D2AE8</Color>
+        <Color x:Key="AccentPurpleHoverColor">#A78BFA</Color>
+
+        <!-- Status Colors -->
+        <Color x:Key="SuccessColor">#FF10B981</Color>
+        <Color x:Key="DangerColor">#FFEF4444</Color>
+
+        <!-- Solid Color Brushes -->
+        <SolidColorBrush x:Key="AppBgBrush" Color="{StaticResource AppBgColor}" />
+        <SolidColorBrush x:Key="AppSurfaceBrush" Color="{StaticResource AppSurfaceColor}" />
+        <SolidColorBrush x:Key="AppBorderBrush" Color="{StaticResource AppBorderColor}" />
+        <SolidColorBrush x:Key="AppTextBrush" Color="{StaticResource AppTextColor}" />
+        <SolidColorBrush x:Key="AppTextMutedBrush" Color="{StaticResource AppTextMutedColor}" />
+        <SolidColorBrush x:Key="AccentOrangeBrush" Color="{StaticResource AccentOrangeColor}" />
+        <SolidColorBrush x:Key="AccentOrangeHoverBrush" Color="{StaticResource AccentOrangeHoverColor}" />
+        <SolidColorBrush x:Key="AccentPurpleBrush" Color="{StaticResource AccentPurpleColor}" />
+        <SolidColorBrush x:Key="AccentPurpleHoverBrush" Color="{StaticResource AccentPurpleHoverColor}" />
+        <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+        <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}" />
+
+        <!-- Gray Gradient for Title Bar -->
+        <LinearGradientBrush x:Key="GrayGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFE0E0E0" Offset="0"/>
+            <GradientStop Color="#FFD0D0D0" Offset="0.3"/>
+            <GradientStop Color="#FFC5C5C5" Offset="0.7"/>
+            <GradientStop Color="#FFC0C0C0" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+
+    <Window.Styles>
+        <!-- Window Control Buttons -->
+        <Style Selector="Button.window-control">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#303030"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.window-control:pointerover">
+            <Setter Property="Background" Value="#40FFFFFF"/>
+        </Style>
+        <Style Selector="Button.window-control.close:pointerover">
+            <Setter Property="Background" Value="#40FF5C5C"/>
+        </Style>
+
+        <!-- Panel Style -->
+        <Style Selector="Border.panel">
+            <Setter Property="Background" Value="{StaticResource AppSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+        </Style>
+
+        <!-- Action Button Style -->
+        <Style Selector="Button.action-button">
+            <Setter Property="Background" Value="{StaticResource AccentOrangeBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="24,10"/>
+        </Style>
+        <Style Selector="Button.action-button:pointerover">
+            <Setter Property="Background" Value="{StaticResource AccentOrangeHoverBrush}"/>
+        </Style>
+        <Style Selector="Button.action-button:pressed">
+            <Setter Property="Background" Value="#FFE07800"/>
+        </Style>
+
+        <!-- Danger Button Style -->
+        <Style Selector="Button.danger-button">
+            <Setter Property="Background" Value="{StaticResource DangerBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="24,10"/>
+        </Style>
+        <Style Selector="Button.danger-button:pointerover">
+            <Setter Property="Background" Value="#FFDC2626"/>
+        </Style>
+    </Window.Styles>
+
+    <Border Background="Transparent" Margin="2" BorderThickness="1" BorderBrush="Transparent">
+        <Grid RowDefinitions="42,*,Auto">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource AppBgColor}"/>
+            </Grid.Background>
+
+            <!-- Title Bar -->
+            <Grid Grid.Row="0" Name="TitleBar" Background="{StaticResource GrayGradient}">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <!-- Left: Icon + Title -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                        <Border Width="24" Height="24" CornerRadius="6" Background="{StaticResource AccentPurpleBrush}" Margin="0,0,10,0">
+                            <Image Source="avares://V-Task/Icons/AppIcon.png" Width="18" Height="18"/>
+                        </Border>
+                        <TextBlock Name="TitleText" Text="Угода користувача"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource AppTextBrush}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Middle: Draggable Space -->
+                    <Panel Name="TitleBarDragArea" Grid.Column="1" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
+
+                    <!-- Right: Window Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Stretch">
+                        <Button Name="CloseButton" Classes="window-control close" Padding="0" Width="46" Height="42" Click="CloseButton_Click">
+                            <Image Source="/Icons/CloseButton.png" Width="16" Height="16"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!-- Content -->
+            <Border Grid.Row="1" Classes="panel" Margin="12,12,12,8" Padding="16">
+                <Grid RowDefinitions="Auto,*">
+                    <!-- Header -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                        <Border Width="48" Height="48" CornerRadius="12" Background="{StaticResource AccentPurpleBrush}" Margin="0,0,12,0">
+                            <Image Source="avares://V-Task/Icons/AppIcon.png" Width="32" Height="32"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Name="HeaderText" Text="🛡️ Угода користувача" FontSize="20" FontWeight="Bold" Foreground="{StaticResource AppTextBrush}"/>
+                            <TextBlock Text="V-Task" FontSize="12" Foreground="{StaticResource AppTextMutedBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Agreement Text -->
+                    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <TextBlock Name="AgreementText" 
+                                   Text="Loading..."
+                                   FontSize="13"
+                                   Foreground="{StaticResource AppTextBrush}"
+                                   TextWrapping="Wrap"
+                                   LineHeight="22"/>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Buttons -->
+            <Border Grid.Row="2" Classes="panel" Margin="12,4,12,12" Padding="16">
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                    <TextBlock Grid.Column="0" 
+                               Text="V-Task v1.0.0" 
+                               FontSize="11" 
+                               Foreground="{StaticResource AppTextMutedBrush}" 
+                               VerticalAlignment="Center"/>
+                    <Button Name="DeclineButton" Grid.Column="1" Classes="danger-button" Content="Відхилити" Click="DeclineButton_Click" Margin="0,0,8,0"/>
+                    <Button Name="AcceptButton" Grid.Column="2" Classes="action-button" Content="Прийняти" Click="AcceptButton_Click"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

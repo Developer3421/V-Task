@@ -88,5 +88,31 @@
     <sys:String x:Key="GpuOther">Diğer GPU</sys:String>
     <sys:String x:Key="GpuUsed">Kullanılan:</sys:String>
     <sys:String x:Key="Technologies">🛠️ Teknolojiler</sys:String>
+    
+    <!-- User Agreement -->
+    <sys:String x:Key="UserAgreement">🛡️ Kullanıcı Sözleşmesi</sys:String>
+    <sys:String x:Key="UserAgreementTitle">Kullanıcı Sözleşmesi</sys:String>
+    <sys:String x:Key="UserAgreementText">V-Task'a hoş geldiniz!
+
+Bu uygulama yalnızca bilgisayarınızın sistem kaynaklarını izlemek için tasarlanmıştır.
+
+📋 Veri Toplama:
+• V-Task YALNIZCA seçilen arayüz dilinin adını saklar
+• Hiçbir kişisel veri toplanmaz
+• Hiçbir bilgi üçüncü taraflarla paylaşılmaz
+
+🔒 Gizlilik:
+• Tüm veriler cihazınızda yerel olarak işlenir
+• Uygulamanın veri iletimi için ağ işlevleri yoktur
+• Ayarlar yerel bir veritabanında saklanır
+
+⚠️ Sorumluluk Reddi:
+• Uygulama herhangi bir garanti olmaksızın "olduğu gibi" sağlanır
+• Yazar herhangi bir zarardan sorumlu değildir
+• Kendi sorumluluğunuzda kullanın
+
+Bu uygulamayı kullanarak, bu sözleşmenin şartlarını kabul etmiş olursunuz.</sys:String>
+    <sys:String x:Key="Accept">Kabul Et</sys:String>
+    <sys:String x:Key="Decline">Reddet</sys:String>
 
 </ResourceDictionary>

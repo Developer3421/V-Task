@@ -88,5 +88,31 @@
     <sys:String x:Key="GpuOther">Andere GPU</sys:String>
     <sys:String x:Key="GpuUsed">Verwendet:</sys:String>
     <sys:String x:Key="Technologies">🛠️ Technologien</sys:String>
+    
+    <!-- User Agreement -->
+    <sys:String x:Key="UserAgreement">🛡️ Benutzervereinbarung</sys:String>
+    <sys:String x:Key="UserAgreementTitle">Benutzervereinbarung</sys:String>
+    <sys:String x:Key="UserAgreementText">Willkommen bei V-Task!
+
+Diese Anwendung dient ausschließlich zur Überwachung der Systemressourcen Ihres Computers.
+
+📋 Datenerfassung:
+• V-Task speichert NUR den Namen der ausgewählten Oberflächensprache
+• Es werden keine persönlichen Daten erfasst
+• Es werden keine Informationen an Dritte weitergegeben
+
+🔒 Datenschutz:
+• Alle Daten werden lokal auf Ihrem Gerät verarbeitet
+• Die Anwendung hat keine Netzwerkfunktionen zur Datenübertragung
+• Einstellungen werden in einer lokalen Datenbank gespeichert
+
+⚠️ Haftungsausschluss:
+• Die Anwendung wird "wie besehen" ohne jegliche Garantien bereitgestellt
+• Der Autor ist nicht für etwaige Schäden verantwortlich
+• Nutzung auf eigene Gefahr
+
+Durch die Nutzung dieser Anwendung stimmen Sie den Bedingungen dieser Vereinbarung zu.</sys:String>
+    <sys:String x:Key="Accept">Akzeptieren</sys:String>
+    <sys:String x:Key="Decline">Ablehnen</sys:String>
 
 </ResourceDictionary>

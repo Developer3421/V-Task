@@ -444,6 +444,12 @@ public partial class MainWindow : Window
         settingsWindow.ShowDialog(this);
     }
 
+    private void AgreementButton_Click(object sender, RoutedEventArgs e)
+    {
+        var agreementWindow = new UserAgreementWindow();
+        agreementWindow.ShowDialog(this);
+    }
+
     #endregion
 
     #region Localization

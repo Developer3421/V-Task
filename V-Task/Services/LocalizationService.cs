@@ -117,7 +117,33 @@ public class LocalizationService : INotifyPropertyChanged
         { "Description", "Опис:" },
         { "AppDescription", "V-Task - це сучасний монітор системних ресурсів для Windows, створений з використанням Avalonia UI." },
         { "Close", "Закрити" },
-        { "Apply", "Застосувати" }
+        { "Apply", "Застосувати" },
+        
+        // User Agreement
+        { "UserAgreement", "🛡️ Угода користувача" },
+        { "UserAgreementTitle", "Угода користувача" },
+        { "UserAgreementText", @"Ласкаво просимо до V-Task!
+
+Цей додаток призначений виключно для моніторингу системних ресурсів вашого комп'ютера.
+
+📋 Збирання даних:
+• V-Task зберігає ТІЛЬКИ назву вибраної мови інтерфейсу
+• Жодні персональні дані не збираються
+• Жодна інформація не передається третім особам
+
+🔒 Конфіденційність:
+• Всі дані обробляються локально на вашому пристрої
+• Додаток не має мережевих функцій для передачі даних
+• Налаштування зберігаються у локальній базі даних
+
+⚠️ Відмова від відповідальності:
+• Додаток надається ""як є"" без будь-яких гарантій
+• Автор не несе відповідальності за будь-які збитки
+• Використовуйте на власний ризик
+
+Використовуючи цей додаток, ви погоджуєтесь з умовами цієї угоди." },
+        { "Accept", "Прийняти" },
+        { "Decline", "Відхилити" }
     };
 
     // Russian
@@ -203,7 +229,33 @@ public class LocalizationService : INotifyPropertyChanged
         { "Description", "Описание:" },
         { "AppDescription", "V-Task - это современный монитор системных ресурсов для Windows, созданный с использованием Avalonia UI." },
         { "Close", "Закрыть" },
-        { "Apply", "Применить" }
+        { "Apply", "Применить" },
+        
+        // User Agreement
+        { "UserAgreement", "🛡️ Пользовательское соглашение" },
+        { "UserAgreementTitle", "Пользовательское соглашение" },
+        { "UserAgreementText", @"Добро пожаловать в V-Task!
+
+Это приложение предназначено исключительно для мониторинга системных ресурсов вашего компьютера.
+
+📋 Сбор данных:
+• V-Task хранит ТОЛЬКО название выбранного языка интерфейса
+• Никакие персональные данные не собираются
+• Никакая информация не передается третьим лицам
+
+🔒 Конфиденциальность:
+• Все данные обрабатываются локально на вашем устройстве
+• Приложение не имеет сетевых функций для передачи данных
+• Настройки хранятся в локальной базе данных
+
+⚠️ Отказ от ответственности:
+• Приложение предоставляется ""как есть"" без каких-либо гарантий
+• Автор не несет ответственности за любые убытки
+• Используйте на свой страх и риск
+
+Используя это приложение, вы соглашаетесь с условиями данного соглашения." },
+        { "Accept", "Принять" },
+        { "Decline", "Отклонить" }
     };
 
     // English
@@ -289,7 +341,33 @@ public class LocalizationService : INotifyPropertyChanged
         { "Description", "Description:" },
         { "AppDescription", "V-Task is a modern system resource monitor for Windows, built with Avalonia UI." },
         { "Close", "Close" },
-        { "Apply", "Apply" }
+        { "Apply", "Apply" },
+        
+        // User Agreement
+        { "UserAgreement", "🛡️ User Agreement" },
+        { "UserAgreementTitle", "User Agreement" },
+        { "UserAgreementText", @"Welcome to V-Task!
+
+This application is designed exclusively for monitoring your computer's system resources.
+
+📋 Data Collection:
+• V-Task stores ONLY the name of the selected interface language
+• No personal data is collected
+• No information is shared with third parties
+
+🔒 Privacy:
+• All data is processed locally on your device
+• The application has no network functions for data transmission
+• Settings are stored in a local database
+
+⚠️ Disclaimer:
+• The application is provided ""as is"" without any warranties
+• The author is not responsible for any damages
+• Use at your own risk
+
+By using this application, you agree to the terms of this agreement." },
+        { "Accept", "Accept" },
+        { "Decline", "Decline" }
     };
 
     // German
@@ -375,7 +453,33 @@ public class LocalizationService : INotifyPropertyChanged
         { "Description", "Beschreibung:" },
         { "AppDescription", "V-Task ist ein moderner Systemressourcenmonitor für Windows, erstellt mit Avalonia UI." },
         { "Close", "Schließen" },
-        { "Apply", "Anwenden" }
+        { "Apply", "Anwenden" },
+        
+        // User Agreement
+        { "UserAgreement", "🛡️ Benutzervereinbarung" },
+        { "UserAgreementTitle", "Benutzervereinbarung" },
+        { "UserAgreementText", @"Willkommen bei V-Task!
+
+Diese Anwendung dient ausschließlich zur Überwachung der Systemressourcen Ihres Computers.
+
+📋 Datenerfassung:
+• V-Task speichert NUR den Namen der ausgewählten Oberflächensprache
+• Es werden keine persönlichen Daten erfasst
+• Es werden keine Informationen an Dritte weitergegeben
+
+🔒 Datenschutz:
+• Alle Daten werden lokal auf Ihrem Gerät verarbeitet
+• Die Anwendung hat keine Netzwerkfunktionen zur Datenübertragung
+• Einstellungen werden in einer lokalen Datenbank gespeichert
+
+⚠️ Haftungsausschluss:
+• Die Anwendung wird ""wie besehen"" ohne jegliche Garantien bereitgestellt
+• Der Autor ist nicht für etwaige Schäden verantwortlich
+• Nutzung auf eigene Gefahr
+
+Durch die Nutzung dieser Anwendung stimmen Sie den Bedingungen dieser Vereinbarung zu." },
+        { "Accept", "Akzeptieren" },
+        { "Decline", "Ablehnen" }
     };
 
     // Turkish
@@ -461,7 +565,33 @@ public class LocalizationService : INotifyPropertyChanged
         { "Description", "Açıklama:" },
         { "AppDescription", "V-Task, Avalonia UI ile oluşturulmuş Windows için modern bir sistem kaynak izleyicisidir." },
         { "Close", "Kapat" },
-        { "Apply", "Uygula" }
+        { "Apply", "Uygula" },
+        
+        // User Agreement
+        { "UserAgreement", "🛡️ Kullanıcı Sözleşmesi" },
+        { "UserAgreementTitle", "Kullanıcı Sözleşmesi" },
+        { "UserAgreementText", @"V-Task'a hoş geldiniz!
+
+Bu uygulama yalnızca bilgisayarınızın sistem kaynaklarını izlemek için tasarlanmıştır.
+
+📋 Veri Toplama:
+• V-Task YALNIZCA seçilen arayüz dilinin adını saklar
+• Hiçbir kişisel veri toplanmaz
+• Hiçbir bilgi üçüncü taraflarla paylaşılmaz
+
+🔒 Gizlilik:
+• Tüm veriler cihazınızda yerel olarak işlenir
+• Uygulamanın veri iletimi için ağ işlevleri yoktur
+• Ayarlar yerel bir veritabanında saklanır
+
+⚠️ Sorumluluk Reddi:
+• Uygulama herhangi bir garanti olmaksızın ""olduğu gibi"" sağlanır
+• Yazar herhangi bir zarardan sorumlu değildir
+• Kendi sorumluluğunuzda kullanın
+
+Bu uygulamayı kullanarak, bu sözleşmenin şartlarını kabul etmiş olursunuz." },
+        { "Accept", "Kabul Et" },
+        { "Decline", "Reddet" }
     };
 
     public string CurrentLanguage

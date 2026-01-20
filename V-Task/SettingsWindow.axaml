@@ -140,7 +140,7 @@
                     <!-- Left: Icon + Title -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
                         <Border Width="24" Height="24" CornerRadius="6" Background="{StaticResource AccentPurpleBrush}" Margin="0,0,10,0">
-                            <TextBlock Text="⚙" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="avares://V-Task/Icons/AppIcon.png" Width="16" Height="16"/>
                         </Border>
                         <TextBlock Name="TitleText" Text="Налаштування"
                                    FontSize="14"
@@ -194,7 +194,7 @@
                             
                             <!-- App Logo -->
                             <Border Width="80" Height="80" CornerRadius="16" Background="{StaticResource AccentPurpleBrush}" Margin="0,0,0,16" HorizontalAlignment="Left">
-                                <TextBlock Text="⚡" FontSize="40" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Image Source="avares://V-Task/Icons/AppIcon.png" Width="56" Height="56"/>
                             </Border>
                             
                             <StackPanel Spacing="8">
