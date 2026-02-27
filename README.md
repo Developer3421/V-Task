@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="V-Task/Icons/AppIcon.png" alt="V-Task Logo" width="120"/>
-
 # V-Task — Resource Monitor
 
 **A lightweight, modern system resource monitor for Windows built with Avalonia UI**
