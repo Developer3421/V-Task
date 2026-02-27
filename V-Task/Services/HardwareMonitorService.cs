@@ -110,8 +110,8 @@ public class HardwareMonitorService : IDisposable
     
     private void CountCpuCores()
     {
-        // LibreHardwareMonitor sensors are not a reliable source for physical core count
-        // (often represent logical cores). Prefer WMI.
+        // Try WMI first (most accurate on Windows)
+        bool wmiSuccess = false;
         try
         {
             using var cpuSearcher = new ManagementObjectSearcher(
@@ -121,7 +121,10 @@ public class HardwareMonitorService : IDisposable
             {
                 var cores = mo["NumberOfCores"];
                 if (cores != null)
+                {
                     PhysicalCores = Convert.ToInt32(cores);
+                    wmiSuccess = true;
+                }
 
                 var logical = mo["NumberOfLogicalProcessors"];
                 if (logical != null)
@@ -135,7 +138,33 @@ public class HardwareMonitorService : IDisposable
             Debug.WriteLine($"Error detecting CPU core count via WMI: {ex.Message}");
         }
 
-        // Fallbacks (avoid guessing /2)
+        // If WMI failed, try LibreHardwareMonitor sensor counting
+        if (!wmiSuccess && _cpu != null)
+        {
+            try
+            {
+                _cpu.Update();
+                
+                // Count unique core temperature sensors or load sensors
+                var coreSensors = _cpu.Sensors
+                    .Where(s => s.SensorType == SensorType.Temperature && 
+                                s.Name != null && 
+                                s.Name.Contains("Core #", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                
+                if (coreSensors.Count > 0)
+                {
+                    PhysicalCores = coreSensors.Count;
+                    Debug.WriteLine($"Detected {PhysicalCores} physical cores from LibreHardwareMonitor");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error detecting cores via LibreHardwareMonitor: {ex.Message}");
+            }
+        }
+
+        // Fallbacks
         if (LogicalCores <= 0)
             LogicalCores = Environment.ProcessorCount;
 

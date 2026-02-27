@@ -6,6 +6,17 @@
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
         <ApplicationIcon>Modern_minimal_app_icon_for_a_.ico</ApplicationIcon>
+        
+        <!-- Disable trimming to preserve WMI and PerformanceCounter functionality -->
+        <PublishTrimmed>false</PublishTrimmed>
+        <TrimMode>partial</TrimMode>
+        
+        <!-- Required for System.Management (WMI) to work in published apps -->
+        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+        
+        <!-- Disable PDB file generation in Release/Publish -->
+        <DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+        <DebugSymbols Condition="'$(Configuration)' == 'Release'">false</DebugSymbols>
     </PropertyGroup>
 
     <ItemGroup>

@@ -71,21 +71,34 @@ public class MemoryMonitorService
             
             // Get total memory slots
             int totalSlots = 0;
-            using var slotSearcher = new System.Management.ManagementObjectSearcher("SELECT MemoryDevices FROM Win32_PhysicalMemoryArray");
-            foreach (System.Management.ManagementObject mo in slotSearcher.Get())
+            try
             {
-                var slots = mo["MemoryDevices"];
-                if (slots != null)
-                    totalSlots = Convert.ToInt32(slots);
+                using var slotSearcher = new System.Management.ManagementObjectSearcher("SELECT MemoryDevices FROM Win32_PhysicalMemoryArray");
+                foreach (System.Management.ManagementObject mo in slotSearcher.Get())
+                {
+                    var slots = mo["MemoryDevices"];
+                    if (slots != null)
+                        totalSlots = Convert.ToInt32(slots);
+                }
+            }
+            catch
+            {
+                // If slot detection fails, use number of detected modules as minimum
+                totalSlots = usedSlots > 0 ? usedSlots : 2;
             }
             
             MemorySpeed = maxSpeed > 0 ? $"{maxSpeed} MHz" : "N/A";
-            MemoryType = memType;
-            MemorySlots = $"{usedSlots} / {totalSlots}";
+            MemoryType = usedSlots > 0 ? memType : "N/A";
+            MemorySlots = usedSlots > 0 ? $"{usedSlots} / {totalSlots}" : "N/A";
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error loading memory static info: {ex.Message}");
+            
+            // Set fallback values when WMI fails
+            MemorySpeed = "N/A";
+            MemoryType = "N/A";
+            MemorySlots = "N/A";
         }
     }
     

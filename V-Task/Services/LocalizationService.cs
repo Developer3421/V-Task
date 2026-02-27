@@ -30,7 +30,7 @@ public class LocalizationService : INotifyPropertyChanged
         // Validate that loaded language exists, otherwise use default
         if (!AvailableLanguages.ContainsKey(_currentLanguage))
         {
-            _currentLanguage = "uk";
+            _currentLanguage = "en";
         }
     }
 

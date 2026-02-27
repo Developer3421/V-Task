@@ -6,5 +6,5 @@ namespace V_Task.Models;
 public class AppSettings
 {
     public int Id { get; set; } = 1;
-    public string Language { get; set; } = "uk";
+    public string Language { get; set; } = "en";
 }
